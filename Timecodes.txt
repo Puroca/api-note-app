@@ -1,0 +1,120 @@
+
+Timecodes
+----------------------------------------
+00:00:00 - Intro & Demo
+00:05:03 - Sponsor message
+00:07:57 - Setup
+00:15:30 - Add Tailwindcss
+00:20:04 - Install Heroicons
+00:22:51 - Create Login form
+00:29:56 - Create Routes
+00:29:56 - Create Guest Layout
+00:35:57 - Create Default Layout
+00:43:23 - Page Component
+01:00:40 - ContextProvider 1
+01:04:42 - ContextProvider 2
+01:14:21 - Create Protected routes
+01:15:46 - Survey List page
+01:18:50 - Survey List Item
+01:29:52 - Survey Form 1
+01:43:24 - Survey Form 2
+01:53:20 - Create AuthController
+02:07:37 - Signup
+02:16:14 - Signup 2
+02:38:52 - Login
+02:44:05 - Logout
+02:47:13 - Logout 2
+02:48:14 - Survey Form
+02:51:56 - Generate migrations and models
+02:59:35 - Generate Survey CRUD on backend
+03:34:30 - Implement survey save
+03:38:25 - Finish survey create
+04:05:37 - Display validation errors
+04:14:59 - Create SurveyQuestions component
+04:35:05 - Implement saving survey with questions
+04:54:37 - Implement saving survey with questions2
+04:55:49 - Finish SurveyQuestion component
+05:00:28 - Finish SurveyQuestion component
+05:19:09 - Get authorized user's information
+05:27:15 - Load surveys from the database & Pagination
+06:08:17 - Implement survey update
+06:22:50 - Delete survey
+06:29:38 - Implement notification
+06:47:55 - Question type select
+06:52:42 - Question type select 2
+07:21:56 - Survey public page
+07:34:26 - Survey public page 2
+07:42:43 - Create Question view component
+07:59:39 - Create API endpoint to store survey answer
+08:06:46 - Implement store survey answer
+08:18:52 - Implement Dashboard backend
+08:28:10 - Implement Dashboard frontend
+08:40:22 - Improve Dashboard
+08:46:11 - Claim new domain
+08:47:01 - Create VPS Server
+08:49:15 - Configure DNS records
+08:56:42 - Setup VPS server and install Laravel
+10:15:19 - Install SSL
+10:20:14 - Adjust Virtual Host file for SSL
+
+
+
+
+import React, { createContext, useContext, useState } from "react";
+
+// Définition des types directement
+type User = {
+    name: string;
+    email: string;
+};
+
+type ContextType = {
+    currentUser: User;
+    userToken: string;
+    setCurrentUser: React.Dispatch<React.SetStateAction<User>>;
+    setUserToken: React.Dispatch<React.SetStateAction<string>>;
+};
+
+// Initialisation de l'état et du contexte
+const initialState: ContextType = {
+    currentUser: {
+        name: "",
+        email: "",
+    },
+    userToken: "",
+    setCurrentUser: () => {},
+    setUserToken: () => {},
+};
+
+// Création du contexte
+const StateContext = createContext<ContextType>(initialState);
+
+// Component de provider
+export const ContextProvider = ({
+    children,
+}: {
+    children: React.ReactNode;
+}) => {
+    const [currentUser, setCurrentUser] = useState<User>({
+        name: "Toni",
+        email: "toni@example.com",
+    });
+    const [userToken, setUserToken] = useState<string>("Token");
+
+    return (
+        <StateContext.Provider
+            value={{
+                currentUser,
+                setCurrentUser,
+                userToken,
+                setUserToken,
+            }}
+        >
+            {children}
+        </StateContext.Provider>
+    );
+};
+
+// Hook pour utiliser le contexte
+export const useUserContext = () => useContext(StateContext);
+
